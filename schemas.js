@@ -20,12 +20,14 @@ export const SCHEMAS = {
     ]
   },
 
-  "vectors:add-2d": {
-    title: "Vector Addition (2D)",
-    fields: [
-      { name: "vectors", label: "Vectors (x,y per line)", type: "multiline" }
-    ]
-  },
+"vectors:add-2d": {
+  title: "Vector Addition (2D)",
+  fields: [
+    { name: "forces_x", label: "X Components (comma separated)", type: "text" },
+    { name: "forces_y", label: "Y Components (comma separated)", type: "text" }
+  ]
+}
+
 
   "vectors:resolve": {
     title: "Resolve Vector",
