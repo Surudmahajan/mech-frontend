@@ -26,7 +26,7 @@ export const SCHEMAS = {
     { name: "forces_x", label: "X Components (comma separated)", type: "text" },
     { name: "forces_y", label: "Y Components (comma separated)", type: "text" }
   ]
-}
+},
 
 
   "vectors:resolve": {
