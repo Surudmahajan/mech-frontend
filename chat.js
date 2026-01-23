@@ -37,12 +37,26 @@ export async function sendMessage() {
     renderForm(schema, async payload => {
       statusEl.textContent = "Computing…";
 
-      const result = await callBackend(intent.endpoint, intent.method, payload);
-
-      document.getElementById("visuals-iframe")?.contentWindow?.postMessage(
-        { type: "ENGINE_RESULT", payload: { domain: intent.domain, operation: intent.operation, data: result } },
-        VISUALS_ORIGIN
+      const result = await callBackend(
+        intent.endpoint,
+        intent.method,
+        payload
       );
+
+      const iframe = document.getElementById("visuals-iframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(
+          {
+            type: "ENGINE_RESULT",
+            payload: {
+              domain: intent.domain,
+              operation: intent.operation,
+              data: result
+            }
+          },
+          VISUALS_ORIGIN
+        );
+      }
 
       const explanation = await postJSON(`${AI_PROXY_BASE}/explain`, {
         message,
@@ -77,11 +91,25 @@ function renderForm(schema, onSubmit) {
 
   const btn = document.createElement("button");
   btn.textContent = "Solve";
+
   btn.onclick = () => {
     const payload = {};
+
     schema.fields.forEach(f => {
-      payload[f.name] = Number(document.getElementById(`field_${f.name}`).value);
+      const raw = document
+        .getElementById(`field_${f.name}`)
+        .value
+        .trim();
+
+      if (f.type === "number") {
+        payload[f.name] = Number(raw);
+      } else {
+        payload[f.name] = raw
+          .split(",")
+          .map(v => Number(v.trim()));
+      }
     });
+
     onSubmit(payload);
   };
 
@@ -112,5 +140,7 @@ function formatResult(result) {
       .map(([k, v]) => `• ${k} = ${v}`)
       .join("<br>");
   }
-  return JSON.stringify(result, null, 2);
+  return Object.entries(result)
+    .map(([k, v]) => `• ${k}: ${v}`)
+    .join("<br>");
 }
