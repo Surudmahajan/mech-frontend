@@ -1,0 +1,95 @@
+/*
+Copyright 2026 Surud Mahajan
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
+*/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mechanics AI Engine</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="grid-overlay"></div>
+
+  <div class="app">
+    <div class="header">
+      <div class="logo-icon">⚙️</div>
+      <h1>Mechanics AI Engine</h1>
+      <p>Engineering Mechanics • Applied Mechanics • Vibrations • Dynamics</p>
+    </div>
+
+    <div class="input-section">
+      <textarea
+        id="userInput"
+        placeholder="Example: solve projectile motion for a body projected at 30 degrees..."
+      ></textarea>
+
+      <div class="action-bar">
+        <div class="status" id="status">Ready to process...</div>
+        <button class="run-btn" onclick="send()">
+          <span>Run Analysis</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="form"></div>
+
+    <div class="output-container">
+      <pre id="output"></pre>
+    </div>
+
+    <div class="visuals-panel" id="visuals-panel">
+      <div class="visuals-toolbar">
+        <div class="panel-title">
+          <span class="dot"></span> Visuals Engine
+        </div>
+        <div class="visuals-actions">
+          <button class="tool-btn" onclick="toggleVisuals()">Hide</button>
+          <button class="tool-btn primary" onclick="fullscreenVisuals()">Fullscreen</button>
+        </div>
+      </div>
+
+      <div class="iframe-wrapper">
+        <iframe
+          id="visuals-iframe"
+          src="https://ovisual.netlify.app/"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { sendMessage } from "./chat.js?v=1";
+    window.send = sendMessage;
+  </script>
+
+  <script>
+    let visualsVisible = true;
+
+    function toggleVisuals() {
+      const panel = document.getElementById("visuals-panel");
+      visualsVisible = !visualsVisible;
+      panel.classList.toggle("hidden", !visualsVisible);
+    }
+
+    function fullscreenVisuals() {
+      document.getElementById("visuals-panel").classList.toggle("fullscreen");
+    }
+  </script>
+</body>
+</html>
