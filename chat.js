@@ -2,7 +2,7 @@ import { SCHEMAS } from "./schemas.js";
 
 const AI_PROXY_BASE = "https://surudmahajan12-mechproxy.hf.space";
 const BACKEND_BASE  = "https://surudmahajan12-mechback.hf.space";
-const VISUALS_ORIGIN = "https://ovisual.netlify.app";
+const VISUALS_ORIGIN = "https://omechvisual.netlify.app";
 
 export async function sendMessage() {
   const inputEl = document.getElementById("userInput");
